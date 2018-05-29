@@ -6,7 +6,7 @@ cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
 VOLUME /tmp
 
-ADD target/distributedid-jar-with-dependencies.jar app.jar
+ADD target/DistributedId-jar-with-dependencies.jar app.jar
 RUN bash -c 'touch /app.jar'
 
 EXPOSE 16830
