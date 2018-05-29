@@ -1,8 +1,8 @@
 FROM openjdk:8
 
 # 时区设置
-RUN echo "Asia/shanghai" > /etc/timezone && \
-cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+RUN echo "Asia/shanghai" > /etc/timezone \
+    && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
 VOLUME /tmp
 
