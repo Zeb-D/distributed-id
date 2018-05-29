@@ -38,6 +38,6 @@ EXPOSE 16831
 #ENTRYPOINT exec java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /app.jar
 
 RUN mkdir -p /opt/settings/
-RUN echo "env=DEV" > /opt/settings/server.properties
+#RUN echo "env=DEV" > /opt/settings/server.properties
 ENTRYPOINT ["java", "-Xdebug", "-Xrunjdwp:server=y,transport=dt_socket,suspend=n", "-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar","1","2"]
 
