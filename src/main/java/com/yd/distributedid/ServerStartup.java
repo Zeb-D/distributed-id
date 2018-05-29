@@ -26,7 +26,7 @@ public class ServerStartup {
             datacenterId = Long.valueOf(args[0]);
             machineId = Long.valueOf(args[1]);
         }else{
-            System.out.println(">>>>>You don't appoint the datacenterId and machineId argement,will use default value");
+//            System.out.println(">>>>>You don't appoint the datacenterId and machineId argement,will use default value");
         }
 
         final SnowFlake snowFlake = new SnowFlake(datacenterId, machineId);

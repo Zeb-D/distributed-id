@@ -4,7 +4,10 @@ import com.yd.distributedid.core.SnowFlake;
 import com.yd.distributedid.exception.RemotingTooMuchRequestException;
 import com.yd.distributedid.util.GlobalConfig;
 import com.yd.distributedid.util.NettyUtil;
-import io.netty.channel.*;
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelFutureListener;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,10 +16,11 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
 /**
- *  自定义的处理器，目前支持三种请求：
- *  getTime: 获取服务器当前时间；
- *  clientInfo: 获取请求客户端的User-Agent信息
- *  其它： 返回404状态，并且提示404信息
+ * 自定义的处理器，目前支持三种请求：
+ * getTime: 获取服务器当前时间；
+ * clientInfo: 获取请求客户端的User-Agent信息
+ * 其它： 返回404状态，并且提示404信息
+ *
  * @author Yd
  */
 public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
@@ -43,13 +47,13 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
                 try {
                     long id = snowFlake.nextId();
                     logger.info("HttpServerHandler id is: {}", id);
-                    response.content().writeBytes((""+id).getBytes());
+                    response.content().writeBytes(("" + id).getBytes());
                     ctx.writeAndFlush(response).addListener(ChannelFutureListener.CLOSE);
-                }catch (Exception e){
+                } catch (Exception e) {
                     semaphore.release();
                     logger.error("HttpServerHandler error", e);
                 }
-            }else{
+            } else {
                 String info = String.format("HttpServerHandler tryAcquire semaphore timeout, %dms, waiting thread " +
                                 "nums: %d availablePermit: %d",     //
                         GlobalConfig.ACQUIRE_TIMEOUTMILLIS, //
@@ -59,8 +63,12 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
                 logger.warn(info);
                 throw new RemotingTooMuchRequestException(info);
             }
-        }else{
-            throw new RemotingTooMuchRequestException("your request uri is not approve !");
+        } else {
+            logger.info("your request uri:{} is not approve !", uri);
+            response.setStatus(HttpResponseStatus.NOT_FOUND);
+            response.content().writeBytes(("your request uri: " + uri + " is not approve !").getBytes());
+            ctx.writeAndFlush(response).addListener(ChannelFutureListener.CLOSE);
+//            throw new RemotingTooMuchRequestException("your request uri is not approve !");
         }
     }
 
