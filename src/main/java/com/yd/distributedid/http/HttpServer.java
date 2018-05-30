@@ -10,6 +10,7 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpRequestDecoder;
 import io.netty.handler.codec.http.HttpResponseEncoder;
+import io.netty.handler.stream.ChunkedWriteHandler;
 
 import java.net.InetSocketAddress;
 
@@ -46,6 +47,7 @@ public class HttpServer extends BaseServer {
                                 new HttpRequestDecoder(),       //请求解码器
                                 new HttpObjectAggregator(65536),//将多个消息转换成单一的消息对象
                                 new HttpResponseEncoder(),      // 响应编码器
+                                new ChunkedWriteHandler(),//目的是支持异步大文件传输（）
                                 new HttpServerHandler(snowFlake)//自定义处理器
                         );
                     }

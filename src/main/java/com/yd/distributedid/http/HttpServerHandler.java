@@ -40,7 +40,7 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
     protected void channelRead0(ChannelHandlerContext ctx, FullHttpRequest request)
             throws Exception {
         String uri = getUriNoSprit(request);
-        logger.info(">>>>>> request uri is: {}", uri);
+        logger.info(">>>>>> request uri is: {} from ", uri);
         FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK);
         if (GlobalConfig.HTTP_REQUEST.equals(uri)) {
             if (semaphore.tryAcquire(GlobalConfig.ACQUIRE_TIMEOUTMILLIS, TimeUnit.MILLISECONDS)) {
