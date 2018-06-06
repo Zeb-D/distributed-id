@@ -32,7 +32,7 @@ public class SdkServerHandler extends SimpleChannelInboundHandler {
     protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
         if (msg != null && msg instanceof SdkProto) {
             SdkProto sdkProto = (SdkProto) msg;
-//            logger.info("SdkServerHandler msg is: {}", sdkProto.toString());
+            logger.info("SdkServerHandler msg is: {}", sdkProto.toString());
             if (semaphore.tryAcquire(GlobalConfig.ACQUIRE_TIMEOUTMILLIS, TimeUnit.MILLISECONDS)) {
                 try {
                     sdkProto.setDid(snowFlake.nextId());

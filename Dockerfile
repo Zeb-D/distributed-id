@@ -39,5 +39,5 @@ EXPOSE 16831
 
 RUN mkdir -p /opt/settings/
 #RUN echo "env=DEV" > /opt/settings/server.properties
-ENTRYPOINT ["java", "-Xdebug", "-Xrunjdwp:server=y,transport=dt_socket,suspend=n", "-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar","1","2"]
+ENTRYPOINT ["java", "-Xdebug", "-Xrunjdwp:server=y,transport=dt_socket,suspend=n","-Dio.netty.leakDetectionLevel=advanced", "-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar","1","2"]
 
