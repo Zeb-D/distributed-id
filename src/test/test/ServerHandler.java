@@ -14,6 +14,7 @@ public class ServerHandler extends SimpleChannelInboundHandler {
         if (msg instanceof ReceiveDataFormat) {
             System.out.println("ServerReceived：服务端获取信息：" + ((ReceiveDataFormat) msg));
             ctx.writeAndFlush("Server to Clent：：" + (ReceiveDataFormat) msg);
+
         }
 
     }

@@ -2,14 +2,14 @@ package com.yd.test;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.handler.codec.FixedLengthFrameDecoder;
+import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 
-public class MessageDecoder extends FixedLengthFrameDecoder {
+public class MessageDecoder extends LengthFieldBasedFrameDecoder {
 
     public final int BASE_LENGTH = 4 + 4;
 
     public MessageDecoder(int frameLength) {
-        super(frameLength);
+        super(frameLength, 0, 0);
     }
 
     @Override

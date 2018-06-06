@@ -9,6 +9,7 @@ import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.*;
+import io.netty.util.ReferenceCountUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -70,6 +71,7 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
             ctx.writeAndFlush(response).addListener(ChannelFutureListener.CLOSE);
 //            throw new RemotingTooMuchRequestException("your request uri is not approve !");
         }
+//        ReferenceCountUtil.release(request);//writeAndFlush 会调用这句话
     }
 
     @Override
