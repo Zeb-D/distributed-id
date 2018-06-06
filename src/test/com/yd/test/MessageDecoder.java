@@ -22,7 +22,7 @@ public class MessageDecoder extends LengthFieldBasedFrameDecoder {
             }
             int length = buf.readInt();
             int content = buf.readInt();
-            return new ReceiveDataFormat(length, content);
+            return new com.yd.test.ReceiveDataFormat(length, content);
         } catch (Exception e) {
             ctx.channel().close();
         } finally {
