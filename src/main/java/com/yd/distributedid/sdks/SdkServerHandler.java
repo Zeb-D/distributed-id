@@ -35,7 +35,10 @@ public class SdkServerHandler extends SimpleChannelInboundHandler {
             logger.info("SdkServerHandler msg is: {}", sdkProto.toString());
             if (semaphore.tryAcquire(GlobalConfig.ACQUIRE_TIMEOUTMILLIS, TimeUnit.MILLISECONDS)) {
                 try {
-                    sdkProto.setDid(snowFlake.nextId());
+                    //获取请求中的请求id，数据中心id进行动态性sdk 获取分布式id
+                    snowFlake.setDatacenterId(sdkProto.getDid());
+                    snowFlake.setMachineId(sdkProto.getRqid());
+                    sdkProto.setId(snowFlake.nextId());
                     ctx.channel().writeAndFlush(sdkProto).addListener(new ChannelFutureListener() {
                         @Override
                         public void operationComplete(ChannelFuture channelFuture) throws Exception {
@@ -47,7 +50,7 @@ public class SdkServerHandler extends SimpleChannelInboundHandler {
                     logger.error("SdkServerhandler error", e);
                 }
             } else {
-                sdkProto.setDid(-1);
+                sdkProto.setId(-1);
                 ctx.channel().writeAndFlush(sdkProto);
                 String info = String.format("SdkServerHandler tryAcquire semaphore timeout, %dms, waiting thread " +
                                 "nums: %d availablePermit: %d",     //
@@ -64,7 +67,7 @@ public class SdkServerHandler extends SimpleChannelInboundHandler {
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         Channel channel = ctx.channel();
-        logger.error("SdkServerHandler channel [{}] error and will be closed", NettyUtil.parseRemoteAddr(channel), cause);
+        logger.error("SdkServerHandler channel [{}] error and will be closed", NettyUtil.parseRemoteAddr(channel), cause.getMessage());
         NettyUtil.closeChannel(channel);
     }
 }

@@ -1,18 +1,23 @@
 package com.yd.test;
 
 public class ReceiveDataFormat {
-
-    public int recevieDataLength;
-    public int receiveDateContent;
-
-    public ReceiveDataFormat(int length, int data) {
-
-        this.recevieDataLength = length;
-        this.receiveDateContent = data;
-    }
-
-    @Override
-    public String toString() {
-        return "大小为" + recevieDataLength + "\n内容为" + receiveDateContent;
-    }
+	
+	public int     recevieDataLength;
+	public String  receiveDateContent;
+	public String  strMsgLength;
+	
+	public ReceiveDataFormat (int length, String data) {
+		
+		this.recevieDataLength  = length;
+		this.receiveDateContent = data;
+	}
+		
+	public void setStrMsgLength (String length) {
+		 this.strMsgLength = length;
+	}
+	
+	public String getStrMsgLength () {
+		return strMsgLength;
+	}
+	
 }

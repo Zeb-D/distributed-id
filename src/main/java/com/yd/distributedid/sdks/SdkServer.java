@@ -17,7 +17,7 @@ public class SdkServer extends BaseServer {
     private SnowFlake snowFlake;
 
     public SdkServer(SnowFlake snowFlake) {
-        this.snowFlake = snowFlake;
+        this.snowFlake = new SnowFlake(snowFlake.getDatacenterId(),snowFlake.getDatacenterId());
         this.port = GlobalConfig.SDKS_PORT;
     }
 
@@ -35,7 +35,7 @@ public class SdkServer extends BaseServer {
                     @Override
                     protected void initChannel(SocketChannel ch) throws Exception {
                         ch.pipeline().addLast(defLoopGroup,
-                                new SdkServerDecoder(12),  // 自定义解码器
+                                new SdkServerDecoder(20),  // 自定义解码器
                                 new SdkServerEncoder(),    // 自定义编码器
                                 new SdkServerHandler(snowFlake) // 自定义处理器
                         );

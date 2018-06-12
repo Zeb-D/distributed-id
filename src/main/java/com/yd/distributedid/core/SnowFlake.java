@@ -110,4 +110,20 @@ public class SnowFlake {
         long end = System.currentTimeMillis();
         System.out.println(end - start);
     }
+
+    public long getDatacenterId() {
+        return datacenterId;
+    }
+
+    public long getMachineId() {
+        return machineId;
+    }
+
+    public void setDatacenterId(long datacenterId) {
+        this.datacenterId = datacenterId;
+    }
+
+    public void setMachineId(long machineId) {
+        this.machineId = machineId;
+    }
 }

@@ -7,6 +7,7 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
+import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
 /**
@@ -30,9 +31,9 @@ public class SdkClient {
             Bootstrap b = new Bootstrap();
             b.group(group)//
                     .channel(NioSocketChannel.class)//
-                    .option(ChannelOption.SO_KEEPALIVE, false)
+                    .option(ChannelOption.SO_KEEPALIVE, true)
                     .option(ChannelOption.TCP_NODELAY, true)
-                    .option(ChannelOption.SO_BACKLOG, 1024)
+//                    .option(ChannelOption.SO_BACKLOG, 1024)
                     .handler(new MyChannelHandler());//
             // 异步链接服务器 同步等待链接成功
             ChannelFuture f = b.connect(host, port).sync();
@@ -54,7 +55,7 @@ public class SdkClient {
         @Override
         protected void initChannel(SocketChannel ch) throws Exception {
             // 添加自定义协议的编解码工具
-            ch.pipeline().addLast(new SdkServerDecoder(12));
+            ch.pipeline().addLast(new SdkServerDecoder(20));
             ch.pipeline().addLast(new SdkServerEncoder());
             // 处理网络IO
             ch.pipeline().addLast(new SdkClientHandler());
