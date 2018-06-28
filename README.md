@@ -29,11 +29,10 @@ HTTP的接入方式很简单，直接访问IP+端口即可，或者域名+端口
 ### SDK接入
 SDK接入前需要在自己的项目中加入SDK的jar包，或者自己写一个SDK来接入，语言不限。
 
-关于SDK client 调用可参考sdks/SdkClient.java ，也可以参考调用core/SnowFlake.java
+关于SDK client 调用可参考sdks/SdkClient.java ，也可以参考调用core/SnowFlake.java，只不过这种方式本地调用；
 
 目前SDK接入采用自定义协议，请求id(rqid)和数据中心did，sdkServer会根据这两个参数进行生成全局Id，具体协议组成部分请看 sdks/SdkProto；
 
-**DistributedID-SDK**提供了同步和异步两种请求方式，如果有高并发的要求，建议使用异步请求的方式，相同的环境下异步请求的性能会比同步请求的性能更高。
 <br><br>
 
 ## 部署
@@ -43,11 +42,13 @@ SDK接入前需要在自己的项目中加入SDK的jar包，或者自己写一�
 执行上面命令指定了两个参数1和2，前面的1代表数据中心标识，后面的2代表的是机器或进程标识.
 <br><br>
 
-如果不指定这两个参数，那么会使用默认的值1。如果只考虑部署单机服务器，那么可以不考虑这两个参数，**如果需要分布式集群来生成ID时，需要指定数据中心标识ID和机器进程标识ID，并且每一个服务器的数据中心标识ID和机器进程标识ID作为联合键全局唯一，这样才能保证集群生成的ID都是唯一的。**
+如果不指定这两个参数，那么会使用默认的值1。如果只考虑部署单机服务器，那么可以不考虑这两个参数，
+
+**如果需要分布式集群来生成ID时，需要指定数据中心标识ID和机器进程标识ID，并且每一个服务器的数据中心标识ID和机器进程标识ID作为联合键全局唯一，这样才能保证集群生成的ID都是唯一的。**
 
 <br>
 
-目前已经集成docker化构建镜像；
+**目前已经集成docker化构建镜像**；
 
 构建步骤为：
 
@@ -59,12 +60,11 @@ SDK接入前需要在自己的项目中加入SDK的jar包，或者自己写一�
 
 <br>
 
-以上构建镜像对于人工操作比较繁琐，建议使用genkins 方式；当然也可以使用插件：
-
-<plugin>
+以上构建镜像对于人工操作比较繁琐，建议使用genkins 方式；当然也可以使用其他集成插件：
 
 ```java
-                    <groupId>com.spotify</groupId>
+	<plugin>
+					<groupId>com.spotify</groupId>
                     <artifactId>docker-maven-plugin</artifactId>
                     <version>0.4.13</version>
                     <executions>
@@ -102,4 +102,17 @@ SDK接入前需要在自己的项目中加入SDK的jar包，或者自己写一�
 <br>
 <br>
 
+
+
+## 测试
+
+#### 准备
+
+1. 由于对本项目采用了限流算法基于信号量方式，所以需要调高`GlobalConfig.HANDLE_HTTP_TPS` 这参数，也视情况下，也可以修改 `GlobalConfig.ACQUIRE_TIMEOUTMILLIS` 限流时间；如在win下测试，需要注意win-os下tcp最大连接数；
+2. 需要会使用一些压测工具，及一些压测技巧；
+3. 如果想测试到并发最大值，需要将服务机器单独部署，及准备多台测试机器；
+
+<br>
+
+编码不易，觉得这项目还不错，请随手star !
 

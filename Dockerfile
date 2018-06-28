@@ -6,7 +6,7 @@ RUN echo "Asia/shanghai" > /etc/timezone \
 
 VOLUME /tmp
 
-ADD target/DistributedId-jar-with-dependencies.jar app.jar
+ADD target/DistributedId.jar app.jar
 RUN bash -c 'touch /app.jar'
 
 EXPOSE 16830
