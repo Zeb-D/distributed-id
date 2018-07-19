@@ -27,28 +27,28 @@ public abstract class BaseServer implements Server {
     protected int port;
 
     public void init(){
-        defLoopGroup = new DefaultEventLoopGroup(8, new ThreadFactory() {
+        defLoopGroup = new DefaultEventLoopGroup(Runtime.getRuntime().availableProcessors(), new ThreadFactory() {
             private AtomicInteger index = new AtomicInteger(0);
 
             @Override
             public Thread newThread(Runnable r) {
-                return new Thread(r, "DEFAULTEVENTLOOPGROUP_" + index.incrementAndGet());
+                return new Thread(r, "DEFAULT_EVENTLOOPGROUP_" + index.incrementAndGet());
             }
         });
-        bossGroup = new NioEventLoopGroup(Runtime.getRuntime().availableProcessors(), new ThreadFactory() {
+        bossGroup = new NioEventLoopGroup(2, new ThreadFactory() {
             private AtomicInteger index = new AtomicInteger(0);
 
             @Override
             public Thread newThread(Runnable r) {
-                return new Thread(r, "BOSS_" + index.incrementAndGet());
+                return new Thread(r, "BOSS_EVENTLOOPGROUP_" + index.incrementAndGet());
             }
         });
-        workGroup = new NioEventLoopGroup(Runtime.getRuntime().availableProcessors() * 10, new ThreadFactory() {
+        workGroup = new NioEventLoopGroup(4, new ThreadFactory() {
             private AtomicInteger index = new AtomicInteger(0);
 
             @Override
             public Thread newThread(Runnable r) {
-                return new Thread(r, "WORK_" + index.incrementAndGet());
+                return new Thread(r, "WORK_EVENTLOOPGROUP_" + index.incrementAndGet());
             }
         });
 
