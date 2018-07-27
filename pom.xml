@@ -13,18 +13,21 @@
    See the License for the specific language governing permissions and
    limitations under the License.
   -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.yd.distributedid</groupId>
     <artifactId>DistributedId</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.0</version>
+    <version>1.0.1-SNAPSHOT</version>
 
-    <name>distributedid ${project.version}</name>
-    <url>http://www.wolfbe.com</url>
+    <scm>
+        <connection>scm:git:https://github.com/Zeb-D/distributed-id.git</connection>
+        <url>scm:git:https://github.com/Zeb-D/distributed-id.git</url>
+        <developerConnection>scm:git:https://github.com/Zeb-D/distributed-id.git</developerConnection>
+        <tag>1.0.0</tag>
+    </scm>
 
     <developers>
         <developer>
